@@ -7,6 +7,32 @@ class DishDetail extends Component {
         super(props);
     }
 
+    renderComments(comments) {
+        if (comments != null && comments.length > 0) {
+            const com = comments.map((i) => {
+                const date = new Date(i.date);
+                const month = date.toLocaleString('default', {month: 'long'});
+                return (
+                    <div>
+                        <li><p>{i.comment}</p></li>
+                        <li><p>--{i.author}, {month} {date.getDay()}, {date.getFullYear()}</p></li>
+                    </div>
+                );
+            });
+
+            return (
+                <div>
+                    <h4>Comments</h4>
+                    <ul className="list-unstyled">
+                        {com}
+                    </ul>
+                </div>);
+        }
+        else {
+            return <div></div>
+        }
+    }
+
     render() {
         if (this.props.dish != null) {
             return (
@@ -26,7 +52,7 @@ class DishDetail extends Component {
                         </Card>
                     </div>
                     <div className="col col-12 col-md-5 m-1">
-
+                        {this.renderComments(this.props.dish.comments)}
                     </div>
                 </div>
             );
