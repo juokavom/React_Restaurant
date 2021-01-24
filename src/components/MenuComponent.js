@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle} from 'reactstrap';
+import {Card, CardImg, CardImgOverlay, CardTitle} from 'reactstrap';
 
 
 class Menu extends Component {
@@ -8,7 +8,6 @@ class Menu extends Component {
 
         console.log('Menu constructor invoked');
     }
-
 
     componentDidMount(){
         console.log('Menu componentDidMount is invoked');

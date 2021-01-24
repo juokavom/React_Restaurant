@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 
 
 class DishDetail extends Component {
-    constructor(props) {
-        super(props);
+
+    componentDidMount(){
+        console.log('DishDetail componentDidMount is invoked');
+    }
+
+    componentDidUpdate(){
+        console.log('DishDetail componentDidUpdate is invoked');
     }
 
     renderComments(comments) {
@@ -13,7 +18,7 @@ class DishDetail extends Component {
                 const date = new Date(i.date);
                 const month = date.toLocaleString('default', {month: 'long'});
                 return (
-                    <div>
+                    <div key = {i.id}>
                         <li><p>{i.comment}</p></li>
                         <li><p>--{i.author}, {month} {date.getDay()}, {date.getFullYear()}</p></li>
                     </div>
@@ -34,6 +39,7 @@ class DishDetail extends Component {
     }
 
     render() {
+        console.log('DishDetail render invoked');
         if (this.props.dish != null) {
             return (
                 <div className="row">
