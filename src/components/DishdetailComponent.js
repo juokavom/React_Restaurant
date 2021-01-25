@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 
 function RenderDish({ dish }) {
@@ -42,17 +43,27 @@ function RenderComments({ comments }) {
 }
 
 const DishDetail = (props) => {
-    console.log('DishDetail render invoked');
     if (props.dish != null) {
         return (
-            <div className="row">
-                {/*
-                     Bootstrap 5 doesn't have xs, so I just use col-12
-                     to get 12 columns until md and col-md-5 to get
-                     5 columns md and up.
-                */}
-                <RenderDish dish={props.dish} />
-                <RenderComments comments = {props.dish.comments} />
+            <div class="container">
+                <div className="row">
+                    <Breadcrumb>
+                        <BreadcrumbItem>
+                            <Link to='/menu'>Menu</Link>
+                        </BreadcrumbItem>
+                        <BreadcrumbItem active>
+                            {props.dish.name}
+                    </BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>{props.dish.name}</h3>
+                        <hr />
+                    </div>
+                </div>
+                <div className="row">
+                    <RenderDish dish={props.dish} />
+                    <RenderComments comments={props.comments} />
+                </div>
             </div>
         );
     } else {
