@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import {
     Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem,
-    Button, Modal, ModalHeader, ModalBody, FormGroup, Label, Form, Input
+    Button, Modal, ModalHeader, ModalBody, Label, Row, Col
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { Control, LocalForm, Errors } from 'react-redux-form';
+
+const required = (val) => val && val.length;
+const maxLenght = (len) => (val) => !(val) || (val.length <= len);
+const minLenght = (len) => (val) => (val) && (val.length >= len);
 
 class CommentForm extends Component {
     constructor(props) {
@@ -13,6 +18,7 @@ class CommentForm extends Component {
             isModalOpen: false
         }
         this.toggleModal = this.toggleModal.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     };
 
     toggleModal() {
@@ -21,32 +27,65 @@ class CommentForm extends Component {
         });
     }
 
+    handleSubmit(values) {
+        console.log("Current state is: " + JSON.stringify(values));
+        alert("Current state is: " + JSON.stringify(values));
+    }
+
     render() {
         return (
             <>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.state.toggleModal}>
-                    <ModalHeader>Login</ModalHeader>
+                    <ModalHeader>Submit Comment</ModalHeader>
                     <ModalBody>
-                        <Form onSubmit={this.handleLogin}>
-                            <FormGroup>
-                                <Label htmlFor="username">Username</Label>
-                                <Input type="text" id="username" name="username"
-                                    innerRef={(input) => this.username = input} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="password">Password</Label>
-                                <Input type="password" id="password" name="password"
-                                    innerRef={(input) => this.password = input} />
-                            </FormGroup>
-                            <FormGroup check>
-                                <Label check>
-                                    <Input type="checkbox" name="remember"
-                                        innerRef={(input) => this.remember = input} />
-                                    Remember me
-                                </Label>
-                            </FormGroup>
-                            <Button type="submit" value="submit" className="primary">Login</Button>
-                        </Form>
+                        <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+                            <Label htmlFor="rating">Rating</Label>
+                            <Row className="form-group">
+                                <Col>
+                                    <Control.select model=".rating" name="rating"
+                                        className="form-control" >
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </Control.select>
+                                </Col>
+                            </Row>
+                            <Label htmlFor="author">Your Name</Label>
+                            <Row className="form-group">
+                                <Col>
+                                    <Control.text model=".author" id="author" name="author"
+                                        placeholder="Your Name"
+                                        className="form-control"
+                                        validators={{
+                                            required, minLenght: minLenght(3), maxLenght: maxLenght(15)
+                                        }} />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".author"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',
+                                            minLenght: 'Must be greater than 2 characters',
+                                            maxLenght: 'Must be 15 characters or less'
+                                        }}
+                                    />
+                                </Col>
+                            </Row>
+                            <Label htmlFor="comment">Comment</Label>
+                            <Row className="form-group">
+                                <Col>
+                                    <Control.textarea model=".comment" id="comment" name="comment"
+                                        rows="6" className="form-control" />
+                                </Col>
+                            </Row>
+                            <Row className="form-group">
+                                <Col>
+                                    <Button type="submit" color="primary">Submit</Button>
+                                </Col>
+                            </Row>
+                        </LocalForm>
                     </ModalBody>
                 </Modal>
                 <Button outline onClick={this.toggleModal}>
