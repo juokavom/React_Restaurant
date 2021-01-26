@@ -6,7 +6,6 @@ import {
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 
-const required = (val) => val && val.length;
 const maxLenght = (len) => (val) => !(val) || (val.length <= len);
 const minLenght = (len) => (val) => (val) && (val.length >= len);
 
@@ -28,7 +27,7 @@ class CommentForm extends Component {
     }
 
     handleSubmit(values) {
-        console.log("Current state is: " + JSON.stringify(values));
+        this.toggleModal();
         alert("Current state is: " + JSON.stringify(values));
     }
 
@@ -59,7 +58,7 @@ class CommentForm extends Component {
                                         placeholder="Your Name"
                                         className="form-control"
                                         validators={{
-                                            required, minLenght: minLenght(3), maxLenght: maxLenght(15)
+                                            minLenght: minLenght(3), maxLenght: maxLenght(15)
                                         }} />
                                     <Errors
                                         className="text-danger"
@@ -138,7 +137,7 @@ function RenderComments({ comments }) {
 const DishDetail = (props) => {
     if (props.dish != null) {
         return (
-            <div class="container">
+            <div className="container">
                 <div className="row">
                     <Breadcrumb>
                         <BreadcrumbItem>

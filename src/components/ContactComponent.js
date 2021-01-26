@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Breadcrumb, BreadcrumbItem, Button, Row, Form, FormGroup, Label, Input, Col, FormFeedback, InputGroup } from 'reactstrap';
+import { Breadcrumb, BreadcrumbItem, Button, Row, Label, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 
