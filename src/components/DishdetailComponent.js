@@ -1,7 +1,60 @@
-import React from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import React, { Component } from 'react';
+import {
+    Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem,
+    Button, Modal, ModalHeader, ModalBody, FormGroup, Label, Form, Input
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
+class CommentForm extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isModalOpen: false
+        }
+        this.toggleModal = this.toggleModal.bind(this);
+    };
+
+    toggleModal() {
+        this.setState({
+            isModalOpen: !this.state.isModalOpen
+        });
+    }
+
+    render() {
+        return (
+            <>
+                <Modal isOpen={this.state.isModalOpen} toggle={this.state.toggleModal}>
+                    <ModalHeader>Login</ModalHeader>
+                    <ModalBody>
+                        <Form onSubmit={this.handleLogin}>
+                            <FormGroup>
+                                <Label htmlFor="username">Username</Label>
+                                <Input type="text" id="username" name="username"
+                                    innerRef={(input) => this.username = input} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="password">Password</Label>
+                                <Input type="password" id="password" name="password"
+                                    innerRef={(input) => this.password = input} />
+                            </FormGroup>
+                            <FormGroup check>
+                                <Label check>
+                                    <Input type="checkbox" name="remember"
+                                        innerRef={(input) => this.remember = input} />
+                                    Remember me
+                                </Label>
+                            </FormGroup>
+                            <Button type="submit" value="submit" className="primary">Login</Button>
+                        </Form>
+                    </ModalBody>
+                </Modal>
+                <Button outline onClick={this.toggleModal}>
+                    <span className="fa fa-pencil fa-lg"></span> Submit Comment</Button>
+            </>
+        );
+    };
+}
 
 function RenderDish({ dish }) {
     return (
@@ -35,6 +88,7 @@ function RenderComments({ comments }) {
                 <ul className="list-unstyled">
                     {com}
                 </ul>
+                <CommentForm />
             </div>);
     }
     else {
@@ -53,7 +107,7 @@ const DishDetail = (props) => {
                         </BreadcrumbItem>
                         <BreadcrumbItem active>
                             {props.dish.name}
-                    </BreadcrumbItem>
+                        </BreadcrumbItem>
                     </Breadcrumb>
                     <div className="col-12">
                         <h3>{props.dish.name}</h3>
