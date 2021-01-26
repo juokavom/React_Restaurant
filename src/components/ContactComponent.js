@@ -27,7 +27,6 @@ class Contact extends Component {
     }
 
     handleInputChange(event) {
-        console.log('MODIFIED');
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -98,7 +97,7 @@ class Contact extends Component {
                         </BreadcrumbItem>
                     </Breadcrumb>
                     <div className="col-12">
-                        <h3>Menu</h3>
+                        <h3>Contact us</h3>
                         <hr />
                     </div>
                 </div>
