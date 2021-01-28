@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
+
 
 const maxLenght = (len) => (val) => !(val) || (val.length <= len);
 const minLenght = (len) => (val) => (val) && (val.length >= len);
@@ -99,13 +101,17 @@ class CommentForm extends Component {
 function RenderDish({ dish }) {
     return (
         <div className="col col-12 col-md-5 m-1">
-            <Card>
-                <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
-                <CardBody>
-                    <CardTitle>{dish.name}</CardTitle>
-                    <CardText>{dish.description}</CardText>
-                </CardBody>
-            </Card>
+            <FadeTransform in transformProps={{
+                exitTransform: 'scale(0.5) translateY(-50%)'
+            }}>
+                <Card>
+                    <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
+                    <CardBody>
+                        <CardTitle>{dish.name}</CardTitle>
+                        <CardText>{dish.description}</CardText>
+                    </CardBody>
+                </Card>
+            </FadeTransform>
         </div>
     );
 }
@@ -115,10 +121,12 @@ function RenderComments({ comments, postComment, dishId }) {
             const date = new Date(i.date);
             const month = date.toLocaleString('default', { month: 'long' });
             return (
-                <div key={i.id}>
-                    <li><p>{i.comment}</p></li>
-                    <li><p>--{i.author}, {month} {date.getDay()}, {date.getFullYear()}</p></li>
-                </div>
+                <Fade in>
+                    <div key={i.id}>
+                        <li><p>{i.comment}</p></li>
+                        <li><p>--{i.author}, {month} {date.getDay()}, {date.getFullYear()}</p></li>
+                    </div>
+                </Fade>
             );
         });
 
@@ -126,7 +134,9 @@ function RenderComments({ comments, postComment, dishId }) {
             <div className="col col-12 col-md-5 m-1">
                 <h4>Comments</h4>
                 <ul className="list-unstyled">
-                    {com}
+                    <Stagger in>
+                        {com}
+                    </Stagger>
                 </ul>
                 <CommentForm dishId={dishId} postComment={postComment} />
             </div>);
@@ -146,7 +156,7 @@ const DishDetail = (props) => {
             </div>
         );
     }
-    else if(props.errMess){
+    else if (props.errMess) {
         return (
             <div className="container">
                 <div className="row">
